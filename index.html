@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Mundo de Beei</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fuente bonita -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Para que los animales no estiren la pantalla */
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            /* El degradado solicitado por el usuario */
+            background-image: linear-gradient(-45deg, rgb(255, 192, 203) 3%, rgb(255, 192, 203) 14.75%, rgb(255, 105, 180) 26.5%, rgb(255, 182, 193) 38.25%, rgb(255, 192, 203) 50%);
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- El Pasto (Grass) --- */
+        .grass-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 35vh;
+            background: linear-gradient(to top, #4ade80 0%, #86efac 100%);
+            border-top-left-radius: 50% 100px;
+            border-top-right-radius: 50% 100px;
+            z-index: 10;
+            box-shadow: 0 -10px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Decoración del pasto (briznas) */
+        .blade {
+            position: absolute;
+            bottom: 0;
+            background-color: #22c55e;
+            width: 4px;
+            border-radius: 10px;
+            z-index: 11;
+        }
+
+        /* --- Elementos Flotantes (Nubes/Sol) --- */
+        .sun {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            width: 80px;
+            height: 80px;
+            background: #fcd34d;
+            border-radius: 50%;
+            box-shadow: 0 0 40px #fcd34d;
+            animation: sunPulse 4s infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes sunPulse {
+            from { transform: scale(1); box-shadow: 0 0 20px #fcd34d; }
+            to { transform: scale(1.1); box-shadow: 0 0 50px #fbbf24; }
+        }
+
+        /* --- Tarjeta Principal --- */
+        .welcome-card {
+            position: relative;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* --- Animaciones de Animales --- */
+        
+        /* Cerditos */
+        .piggy {
+            position: absolute;
+            bottom: 25vh; /* Justo encima del pasto base */
+            font-size: 3rem;
+            z-index: 15;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s;
+        }
+        
+        .piggy:hover {
+            transform: scale(1.2) translateY(-10px);
+        }
+
+        .piggy-walk-left {
+            animation: walkLeft 20s linear infinite;
+        }
+        
+        .piggy-walk-right {
+            animation: walkRight 25s linear infinite;
+        }
+
+        @keyframes walkLeft {
+            0% { left: 110%; transform: scaleX(1); }
+            100% { left: -10%; transform: scaleX(1); }
+        }
+
+        @keyframes walkRight {
+            0% { left: -10%; transform: scaleX(-1); }
+            100% { left: 110%; transform: scaleX(-1); }
+        }
+
+        /* Efecto de rebote al caminar */
+        .bounce {
+            animation: bounce 0.8s infinite alternate;
+            display: inline-block;
+        }
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-5px); }
+        }
+
+        /* Mariposas */
+        .butterfly {
+            position: absolute;
+            font-size: 2rem;
+            z-index: 5;
+            user-select: none;
+            opacity: 0.9;
+        }
+
+        /* Animación compleja de vuelo */
+        @keyframes fly1 {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, -50px) rotate(10deg); }
+            50% { transform: translate(200px, 0) rotate(-10deg); }
+            75% { transform: translate(100px, 50px) rotate(5deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* Mate Argentino */
+        .mate-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 4rem;
+            z-index: 30;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.2));
+            transition: transform 0.3s;
+        }
+        .mate-icon:hover {
+            transform: rotate(-15deg) scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- El Sol -->
+    <div class="sun"></div>
+
+    <!-- Contenido Principal -->
+    <div class="flex items-center justify-center h-screen w-full flex-col text-center px-4 relative z-20">
+        
+        <div class="welcome-card p-12 shadow-xl">
+            <h1 class="text-7xl font-bold text-pink-600 mb-8 drop-shadow-sm tracking-wide">Beei</h1>
+            <button onclick="addHeart()" class="bg-pink-400 hover:bg-pink-500 text-white text-xl font-bold py-3 px-8 rounded-full shadow-lg transition transform hover:scale-105 active:scale-95">
+                Dar Amor ❤️
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Contenedor de Animales y Pasto -->
+    <div id="animal-layer" class="w-full h-full absolute top-0 left-0 pointer-events-none">
+        <!-- Los animales se generarán aquí con JS -->
+    </div>
+
+    <!-- El Pasto -->
+    <div class="grass-container">
+        <!-- Briznas de pasto generadas dinámicamente -->
+        <div id="grass-blades"></div>
+    </div>
+
+    <!-- Un matecito en la esquina -->
+    <div class="mate-icon" title="Unos ricos mates">🧉</div>
+
+    <script>
+        // Función para añadir corazones al hacer clic
+        function addHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️';
+            heart.style.position = 'absolute';
+            heart.style.left = '50%';
+            heart.style.top = '50%';
+            heart.style.fontSize = '2rem';
+            heart.style.transform = 'translate(-50%, -50%)';
+            heart.style.zIndex = '50';
+            heart.style.pointerEvents = 'none';
+            document.body.appendChild(heart);
+
+            // Animar el corazón flotando hacia arriba
+            let posY = 50;
+            let opacity = 1;
+            const interval = setInterval(() => {
+                posY -= 1;
+                opacity -= 0.02;
+                heart.style.top = posY + '%';
+                heart.style.opacity = opacity;
+                
+                if (opacity <= 0) {
+                    clearInterval(interval);
+                    heart.remove();
+                }
+            }, 30);
+        }
+
+        // Generar Cerditos (Pigs)
+        const animalLayer = document.getElementById('animal-layer');
+        
+        function createPig(direction, delay) {
+            const pig = document.createElement('div');
+            pig.classList.add('piggy', 'pointer-events-auto'); // Habilitar clics en cerditos
+            
+            // Añadir animación de rebote interno
+            const innerPig = document.createElement('span');
+            innerPig.innerHTML = '🐷';
+            innerPig.classList.add('bounce');
+            pig.appendChild(innerPig);
+
+            // Definir dirección
+            if (direction === 'left') {
+                pig.classList.add('piggy-walk-left');
+                pig.style.left = '110%'; // Empieza fuera
+            } else {
+                pig.classList.add('piggy-walk-right');
+                pig.style.left = '-10%'; // Empieza fuera
+            }
+
+            // Variación de altura para profundidad (perspectiva)
+            // Cuanto más abajo (mayor bottom %), más grande (más cerca)
+            const randomBottom = 15 + Math.random() * 15; 
+            pig.style.bottom = randomBottom + '%';
+            
+            // Escala basada en la profundidad
+            const scale = 0.8 + (randomBottom - 15) / 30;
+            pig.style.transform = `scale(${scale})`;
+            
+            // Retraso de animación
+            pig.style.animationDelay = `-${delay}s`;
+
+            // Interacción al hacer clic en el cerdito
+            pig.addEventListener('click', function() {
+                this.innerHTML = '<span class="bounce">🐽</span>'; // Cambia a nariz
+                setTimeout(() => {
+                    this.innerHTML = '<span class="bounce">🐷</span>';
+                }, 1000);
+            });
+
+            animalLayer.appendChild(pig);
+        }
+
+        // Crear una familia de cerditos
+        createPig('left', 0);
+        createPig('right', 5);
+        createPig('left', 10);
+        createPig('right', 15);
+        createPig('left', 8);
+
+        // Generar Mariposas
+        function createButterfly() {
+            const butterfly = document.createElement('div');
+            butterfly.classList.add('butterfly');
+            butterfly.innerHTML = '🦋';
+            
+            // Posición inicial aleatoria
+            const startX = Math.random() * 100;
+            const startY = 40 + Math.random() * 40; // En el cielo
+            
+            butterfly.style.left = startX + 'vw';
+            butterfly.style.top = startY + 'vh';
+
+            // Animación personalizada
+            const duration = 10 + Math.random() * 10;
+            butterfly.style.transition = `all ${duration}s linear`;
+            
+            // Mover la mariposa aleatoriamente
+            setInterval(() => {
+                const newX = Math.random() * 100;
+                const newY = 20 + Math.random() * 50;
+                const rotate = Math.random() * 360;
+                butterfly.style.transform = `translate(${newX - startX}vw, ${newY - startY}vh) rotate(${rotate}deg)`;
+            }, 2000);
+
+            animalLayer.appendChild(butterfly);
+        }
+
+        // Crear varias mariposas
+        for(let i=0; i<8; i++) {
+            createButterfly();
+        }
+
+        // Generar detalles de pasto (Grass Blades)
+        const grassContainer = document.getElementById('grass-blades');
+        for (let i = 0; i < 50; i++) {
+            const blade = document.createElement('div');
+            blade.classList.add('blade');
+            blade.style.left = Math.random() * 100 + '%';
+            blade.style.height = (10 + Math.random() * 20) + 'px';
+            blade.style.opacity = 0.5 + Math.random() * 0.5;
+            grassContainer.appendChild(blade);
+        }
+
+    </script>
+</body>
+</html>
