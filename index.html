@@ -143,14 +143,13 @@
         /* --- Título y Panel Informativo --- */
         .title-container {
             position: absolute;
-            top: 3%; /* SUBIDO DE 8% A 3% PARA EVITAR SUPERPOSICIÓN */
+            top: 3%;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             z-index: 50;
             animation: floatGentle 5s ease-in-out infinite;
-            /* Oculto inicialmente, se muestra tras el intro */
             opacity: 0; 
             transition: opacity 1.5s ease;
         }
@@ -170,7 +169,7 @@
             display: flex;
             gap: 30px; 
             align-items: center;
-            margin-top: 10px; /* REDUCIDO DE 20PX A 10PX PARA COMPACTAR */
+            margin-top: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             overflow: hidden;
             transition: transform 0.3s ease;
@@ -183,7 +182,7 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Líneas Snake Neon - Selector corregido para NO afectar el texto */
+        /* Líneas Snake Neon */
         .info-card > span {
             position: absolute;
             display: block;
@@ -248,13 +247,13 @@
             50%, 100% { bottom: 100%; }
         }
 
-        /* Contenido de la tarjeta (Z-index para estar sobre las lineas) */
+        /* Contenido de la tarjeta */
         .info-content {
             display: flex;
             gap: 25px;
             align-items: center;
             z-index: 2;
-            position: relative; /* Asegura que se pinte sobre los spans absolutos */
+            position: relative;
         }
 
         .info-item {
@@ -265,12 +264,12 @@
         }
 
         .info-label {
-            font-size: 0.8rem; /* Tamaño de fuente asegurado */
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: #db2777;
             font-weight: 700;
-            opacity: 1; /* Opacidad completa */
+            opacity: 1;
         }
 
         .flag-icon {
@@ -280,13 +279,13 @@
         }
 
         .zodiac-text {
-            font-size: 1.1rem; /* Un poco más grande para legibilidad */
+            font-size: 1.1rem;
             color: #be185d;
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 5px;
-            white-space: nowrap; /* Evita que el texto se rompa */
+            white-space: nowrap;
         }
         
         .separator {
@@ -298,7 +297,7 @@
         /* --- CONSTRUCCIÓN DEL ALTAR --- */
         .shrine-container {
             position: absolute;
-            bottom: 12vh; /* BAJADO DE 15VH A 12VH PARA DAR ESPACIO */
+            bottom: 12vh;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -307,7 +306,7 @@
             z-index: 20;
             width: 600px;
             height: auto;
-            opacity: 0; /* Oculto inicialmente */
+            opacity: 0;
             transition: opacity 2s ease;
         }
 
@@ -392,82 +391,93 @@
         .step-2 { width: 380px; z-index: 2; }
         .step-3 { width: 420px; z-index: 1; }
 
-        /* --- Carrusel 3D --- */
-        .carousel-wrapper {
+        /* --- TRÍPTICO FLOTANTE (REEMPLAZO DE CARRUSEL) --- */
+        .triptych-wrapper {
             position: absolute;
-            top: 50%;
+            top: 55%;
             left: 50%;
-            transform: translate(-50%, -40%);
-            width: 150px;
-            height: 180px;
-            perspective: 600px;
+            transform: translate(-50%, -50%);
+            width: 450px;
+            height: 200px;
+            perspective: 1000px;
             z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: floatTriptych 6s ease-in-out infinite;
         }
 
-        .carousel {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            animation: rotateCarousel 12s infinite linear;
-        }
-        
-        .carousel:hover {
-            animation-play-state: paused;
+        @keyframes floatTriptych {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
         }
 
-        .carousel-item {
+        .triptych-item {
             position: absolute;
-            width: 140px;
-            height: 160px;
-            left: 5px;
-            top: 10px;
+            width: 130px; 
+            height: 170px;
             border-radius: 10px;
             overflow: hidden;
             border: 4px solid #fb7185;
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
-            background: white; 
-            transition: all 0.3s ease;
+            background: white;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
-        .carousel-item:hover {
-            box-shadow: 
-                0 0 25px rgba(255, 105, 180, 1), 
-                inset 0 0 20px rgba(255, 255, 255, 0.9); 
-            border-color: #ffe4e6;
-            z-index: 50; 
-        }
-
-        .carousel-item img {
+        .triptych-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: top;
-            transition: transform 0.4s ease; 
         }
 
-        .carousel-item:hover img {
-            transform: scale(1.1); 
+        /* --- Posiciones del Tríptico --- */
+        
+        /* Izquierda */
+        .triptych-item:nth-child(1) {
+            left: 20px;
+            transform: translateZ(-50px) rotateY(20deg);
+            z-index: 5;
+            filter: brightness(0.9);
         }
 
-        .carousel-item:nth-child(1) { transform: rotateY(0deg) translateZ(120px); }
-        .carousel-item:nth-child(2) { transform: rotateY(120deg) translateZ(120px); }
-        .carousel-item:nth-child(3) { transform: rotateY(240deg) translateZ(120px); }
-
-        @keyframes rotateCarousel {
-            from { transform: rotateY(0deg); }
-            to { transform: rotateY(360deg); }
+        /* Centro (Hero) */
+        .triptych-item:nth-child(2) {
+            left: 50%;
+            transform: translateX(-50%) translateZ(30px) scale(1.1);
+            z-index: 10;
+            box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+            border-color: #ff69b4;
         }
 
+        /* Derecha */
+        .triptych-item:nth-child(3) {
+            right: 20px;
+            transform: translateZ(-50px) rotateY(-20deg);
+            z-index: 5;
+            filter: brightness(0.9);
+        }
+
+        /* --- Interacción Hover (CORREGIDO) --- */
+        /* Al hacer hover, traemos al frente y enderezamos, PERO SIN CAMBIAR 'left' o 'right' */
+        .triptych-item:hover {
+            z-index: 50 !important;
+            transform: scale(1.3) rotateY(0deg) translateZ(80px) !important;
+            filter: brightness(1.1) !important;
+            box-shadow: 0 0 30px rgba(255, 105, 180, 0.9), 0 0 10px white;
+            border-color: #fff0f5;
+        }
+
+        /* Luz divina */
         .holy-light {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(255, 255, 200, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(255, 255, 200, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
             z-index: 5;
             animation: lightPulse 3s infinite alternate;
         }
@@ -489,11 +499,11 @@
         }
 
         .guardian-left {
-            left: -110px; 
+            left: -220px; /* MOVIDO MÁS A LA IZQUIERDA */
         }
 
         .guardian-right {
-            right: -110px; 
+            right: -220px; /* MOVIDO MÁS A LA DERECHA */
         }
 
         .guardian-img {
@@ -784,23 +794,24 @@
             <!-- Columna Izquierda -->
             <div class="column"></div>
             
-            <!-- Zona Central (Divina) -->
+            <!-- Zona Central (Divina) con TRÍPTICO -->
             <div class="relative w-full h-full">
                 <!-- Luz de fondo -->
                 <div class="holy-light"></div>
                 
-                <!-- Carrusel -->
-                <div class="carousel-wrapper">
-                    <div class="carousel">
-                        <div class="carousel-item">
-                            <img src="https://xatimg.com/image/43TV6GyDyFP7.jpg" alt="Foto 1">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://xatimg.com/image/91LhG0tSSGBa.jpg" alt="Foto 2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="https://xatimg.com/image/po4JvzV2HCar.jpg" alt="Foto 3">
-                        </div>
+                <!-- Tríptico de Fotos -->
+                <div class="triptych-wrapper">
+                    <!-- Foto 1 (Izquierda) -->
+                    <div class="triptych-item">
+                        <img src="https://xatimg.com/image/43TV6GyDyFP7.jpg" alt="Foto 1">
+                    </div>
+                    <!-- Foto 2 (Centro - Hero) -->
+                    <div class="triptych-item">
+                        <img src="https://xatimg.com/image/91LhG0tSSGBa.jpg" alt="Foto 2">
+                    </div>
+                    <!-- Foto 3 (Derecha) -->
+                    <div class="triptych-item">
+                        <img src="https://xatimg.com/image/po4JvzV2HCar.jpg" alt="Foto 3">
                     </div>
                 </div>
             </div>
